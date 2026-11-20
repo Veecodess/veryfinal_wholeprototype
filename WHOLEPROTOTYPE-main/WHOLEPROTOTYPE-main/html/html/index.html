@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    <meta charset="UTF-8">
+    <title>Casa Milan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/css/style.css">
+</head>
+<body class="home-page">
+    <nav>
+        <a href="#home" class="logo" aria-label="Casa Milan home">
+            <img src="images/logo.png" alt="Casa Milan Homeowner's Association">
+            <span>Casa Milan<small>Homeowners Association</small></span>
+        </a>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#events">Announcements</a>
+            <a href="#amenities">Amenities</a>
+            <a href="contacts.html">Contact</a>
+            <a href="Login.html">Log In</a>
+        </div>
+    </nav>
+
+    <section class="hero home-hero" id="home">
+        <div class="hero-content">
+            <h1>Casa Milan</h1>
+            <p>Discover a welcoming community designed for comfortable living. Explore the homes, amenities, and neighborhood life at Casa Milan.</p>
+            <div class="hero-buttons">
+                <a class="hero-button" href="reservation.html">Book as a Guest</a>
+            </div>
+        </div>
+        <img class="home-hero-image" src="images/discover_casa_milan.jpg" alt="Casa Milan community entrance">
+        <svg class="home-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,10 C150,105 220,118 380,70 C540,20 640,0 790,50 C950,105 1050,120 1190,86 C1300,60 1370,52 1440,82 L1440,120 L0,120 Z"></path>
+        </svg>
+    </section>
+
+    <section class="page-section about-section" id="about">
+        <div class="about-content">
+            <div class="about-copy">
+                <h2>Discover Casa Milan</h2>
+                <p>Welcome to Casa Milan, a community where comfortable living and neighborhood life come together. Explore our homes, discover the amenities, and learn more about the community we call home.</p>
+            </div>
+            <img class="about-image" src="images/front_bg.png" alt="A home in the Casa Milan community">
+        </div>
+    </section>
+
+    <section class="directors-section" aria-labelledby="directors-title">
+        <div class="directors-heading">
+            <button class="director-control" id="previous-director" type="button" aria-label="Previous board members">&#8249;</button>
+            <h2 id="directors-title">Board of Directors</h2>
+            <button class="director-control" id="next-director" type="button" aria-label="Next board members">&#8250;</button>
+        </div>
+        <div class="director-track" id="director-track" aria-live="polite">
+            <article class="director-card">
+                <h3>Jane Doe</h3>
+                <span class="director-quote" aria-hidden="true">“</span>
+                <p>Dedicated to supporting a safe, connected, and welcoming Casa Milan community.</p>
+            </article>
+            <article class="director-card">
+                <h3>John Doe</h3>
+                <span class="director-quote" aria-hidden="true">“</span>
+                <p>Working together with residents to help Casa Milan feel like home.</p>
+            </article>
+            <article class="director-card">
+                <h3>Jane Doe</h3>
+                <span class="director-quote" aria-hidden="true">“</span>
+                <p>Committed to a thoughtful and neighborly community for everyone.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="events-section" id="events">
+        <header class="announcement-header">
+            <p class="announcement-eyebrow">Community Board</p>
+            <h2>Announcements</h2>
+            <p class="announcement-intro">Notices, closures and events from your homeowners’ association.</p>
+        </header>
+        <div class="announcement-filters" role="group" aria-label="Filter announcements">
+            <button class="announcement-filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+            <button class="announcement-filter" type="button" data-filter="maintenance" aria-pressed="false">Maintenance</button>
+            <button class="announcement-filter" type="button" data-filter="event" aria-pressed="false">Events</button>
+        </div>
+        <div class="announcement-list">
+            <article class="announcement-card maintenance-announcement" data-category="maintenance">
+                <div class="announcement-date announcement-date-maintenance" aria-label="September 30">
+                    <span>Sep</span>
+                    <strong>30</strong>
+                </div>
+                <div class="announcement-content">
+                    <div class="announcement-meta">
+                        <span class="announcement-category announcement-category-maintenance">Amenity maintenance</span>
+                        <span class="announcement-posted">Posted [DATE]</span>
+                    </div>
+                    <h3>Swimming pool closed for cleaning</h3>
+                    <p>Please be informed that the swimming pool will be temporarily closed on September 30, 2026, for scheduled cleaning and maintenance. We apologize for any inconvenience this may cause and appreciate your understanding.</p>
+                </div>
+            </article>
+
+            <article class="announcement-card event-announcement" data-category="event">
+                <div class="announcement-date announcement-date-event" aria-label="October 2">
+                    <span>Oct</span>
+                    <strong>2</strong>
+                </div>
+                <div class="announcement-content">
+                    <div class="announcement-meta">
+                        <span class="announcement-category announcement-category-event">Upcoming event</span>
+                        <span class="announcement-posted">Posted [DATE]</span>
+                    </div>
+                    <h3>Community evening at the Clubhouse</h3>
+                    <p>Join us for a cozy evening of food, music, and community at the Casa Milan Clubhouse – Main Hall. Bring your friends and family to enjoy local flavors and sunset vibes under the warm glow of October skies.</p>
+                    <dl class="announcement-event-details">
+                        <div><dt>Date</dt><dd>October 2, 2026</dd></div>
+                        <div><dt>Time</dt><dd>4:00 PM – 10:00 PM</dd></div>
+                        <div><dt>Venue</dt><dd>Casa Milan Clubhouse, Main Hall</dd></div>
+                    </dl>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="amenities-section" id="amenities" aria-labelledby="facilities-title">
+        <header class="facilities-header">
+            <h2 class="facilities-title" id="facilities-title">Our Facilities</h2>
+            <p class="amenities-intro">Enjoy access to premium amenities designed for your comfort and convenience.</p>
+        </header>
+        <div class="facility-list">
+            <article class="facility-row">
+                <span class="facility-number" aria-hidden="true">01</span>
+                <img src="images/swimming_pool.jpg" alt="Swimming pool surrounded by greenery">
+                <div class="facility-copy">
+                    <h3>Swimming Pool</h3>
+                    <p>A refreshing pool surrounded by greenery, perfect for relaxing, family swims and cooling off on a hot day.</p>
+                </div>
+                <a class="facility-action" href="amenity.html?name=pool" aria-label="Reserve the Swimming Pool">Reserve <span aria-hidden="true">›</span></a>
+            </article>
+            <article class="facility-row">
+                <span class="facility-number" aria-hidden="true">02</span>
+                <img src="images/basketball_court.jpg" alt="Casa Milan basketball court">
+                <div class="facility-copy">
+                    <h3>Basketball Court</h3>
+                    <p>An open court designed for exciting basketball matches, perfect for sports and community bonding.</p>
+                </div>
+                <a class="facility-action" href="amenity.html?name=basketball" aria-label="Reserve the Basketball Court">Reserve <span aria-hidden="true">›</span></a>
+            </article>
+            <article class="facility-row">
+                <span class="facility-number" aria-hidden="true">03</span>
+                <img src="images/volleyball_court.jpg" alt="Casa Milan volleyball court">
+                <div class="facility-copy">
+                    <h3>Volleyball Court</h3>
+                    <p>An open court designed for fun and friendly volleyball matches, perfect for active play and team bonding.</p>
+                </div>
+                <a class="facility-action" href="amenity.html?name=volleyball" aria-label="Reserve the Volleyball Court">Reserve <span aria-hidden="true">›</span></a>
+            </article>
+            <article class="facility-row">
+                <span class="facility-number" aria-hidden="true">04</span>
+                <img src="images/functionhall.jpg" alt="Casa Milan main hall">
+                <div class="facility-copy">
+                    <h3>Main Hall</h3>
+                    <p>A spacious hall suited for gatherings, celebrations, and community events with flexible seating.</p>
+                </div>
+                <a class="facility-action" href="amenity.html?name=hall" aria-label="Inquire about the Main Hall">Inquire <span aria-hidden="true">›</span></a>
+            </article>
+            <article class="facility-row">
+                <span class="facility-number" aria-hidden="true">05</span>
+                <img src="images/badminton_court.jpg" alt="Casa Milan indoor badminton court">
+                <div class="facility-copy">
+                    <h3>Badminton Court</h3>
+                    <p>An indoor court for fast, friendly matches, perfect for casual games, training and team play.</p>
+                </div>
+                <a class="facility-action" href="amenity.html?name=badminton" aria-label="Reserve the Badminton Court">Reserve <span aria-hidden="true">›</span></a>
+            </article>
+            <article class="facility-row">
+                <span class="facility-number" aria-hidden="true">06</span>
+                <img src="images/pickleball.jpg" alt="Casa Milan pickleball court">
+                <div class="facility-copy">
+                    <h3>Pickleball Court</h3>
+                    <p>A fun paddle sport that is easy to learn and can be enjoyed by players of all ages.</p>
+                </div>
+                <a class="facility-action" href="amenity.html?name=pickleball" aria-label="View the Pickleball Court">Reserve <span aria-hidden="true">›</span></a>
+            </article>
+        </div>
+    </section>
+
+    <section class="why-choose-section" aria-labelledby="why-choose-title">
+        <h2 id="why-choose-title">Why Choose Casa Milan</h2>
+        <div class="why-choose-features">
+            <article class="why-choose-feature">
+                <span class="why-choose-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="6" width="14" height="15" rx="2"></rect>
+                        <path d="M8 3v5M16 3v5M5 10h14"></path>
+                    </svg>
+                </span>
+                <h3>Easy Booking</h3>
+                <p>Book facilities online with<br> real-time availability checking</p>
+            </article>
+            <article class="why-choose-feature">
+                <span class="why-choose-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="9" cy="8" r="4"></circle>
+                        <path d="M2 20v-1.5A5.5 5.5 0 0 1 7.5 13h3a5.5 5.5 0 0 1 5.5 5.5V20H2Z"></path>
+                        <path d="M16 13.2a5 5 0 0 1 4.5 5V20h-3v-1.5a7.4 7.4 0 0 0-1.5-4.4v-.9ZM15 4.2a4 4 0 0 1 0 7.6 6.7 6.7 0 0 0 0-7.6Z"></path>
+                    </svg>
+                </span>
+                <h3>Community Events</h3>
+                <p>Stay updated with community<br> announcements and social events</p>
+            </article>
+            <article class="why-choose-feature">
+                <span class="why-choose-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 3h10v18H7zM9 6l6 12M15 6 9 18"></path>
+                    </svg>
+                </span>
+                <h3>Secure Management</h3>
+                <p>Professional HOA management<br> with secure payment processing</p>
+            </article>
+            <article class="why-choose-feature">
+                <span class="why-choose-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 7v5l3 2"></path>
+                    </svg>
+                </span>
+                <h3>24/7 Access</h3>
+                <p>Access your resident portal<br> anytime, anywhere</p>
+            </article>
+        </div>
+    </section>
+
+    <footer class="home-footer">
+        <a class="home-footer-brand" href="#home" aria-label="Casa Milan Homeowners Association, back to home">
+            <strong>Casa Milan</strong>
+            <span>Homeowners Association</span>
+        </a>
+        <a class="home-footer-top" href="#home">Back To Top</a>
+    </footer>
+
+    <script>
+        const directorTrack = document.getElementById('director-track');
+        document.getElementById('previous-director').addEventListener('click', () => {
+            directorTrack.prepend(directorTrack.lastElementChild);
+        });
+        document.getElementById('next-director').addEventListener('click', () => {
+            directorTrack.append(directorTrack.firstElementChild);
+        });
+
+        const announcementFilters = document.querySelectorAll('.announcement-filter');
+        const announcementCards = document.querySelectorAll('.announcement-card');
+        announcementFilters.forEach((filter) => {
+            filter.addEventListener('click', () => {
+                const selectedCategory = filter.dataset.filter;
+                announcementFilters.forEach((button) => {
+                    const isActive = button === filter;
+                    button.classList.toggle('is-active', isActive);
+                    button.setAttribute('aria-pressed', String(isActive));
+                });
+                announcementCards.forEach((card) => {
+                    card.hidden = selectedCategory !== 'all' && card.dataset.category !== selectedCategory;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

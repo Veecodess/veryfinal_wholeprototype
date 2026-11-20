@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Statement of Account | Casa Milan</title>
+	<link rel="stylesheet" href="../../css/css/homeownerpage.css">
+	<link rel="stylesheet" href="../../css/css/statement-of-account.css">
+	<link rel="stylesheet" href="../../css/css/homeowner-profile.css">
+</head>
+<body>
+	<header class="topbar">
+		<div class="topbar-inner">
+			<a class="brand statement-brand" href="homeowner.html" aria-label="Casa Milan Resident Portal">
+				<span class="brand-name">Casa Milan</span>
+				<span class="brand-subtitle">Resident Portal</span>
+			</a>
+			<div class="account">
+				<span class="icon-button" aria-label="Notifications">
+					<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+					<span class="notification-dot"></span>
+				</span>
+				<button class="profile-trigger" id="profileTrigger" type="button" aria-label="Open profile" aria-haspopup="dialog" aria-controls="profileDialog" aria-expanded="false">
+					<span class="avatar" aria-hidden="true">
+						<svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="6.5" r="3"/><path d="M4.5 16c.5-3 2.5-4.5 5.5-4.5s5 1.5 5.5 4.5"/></svg>
+					</span>
+					<span class="profile-name">Joe Doe</span>
+				</button>
+				<button class="logout" id="logoutBtn" type="button" aria-label="Sign out">
+					<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<nav class="main-nav" aria-label="Main navigation">
+		<div class="nav-inner">
+			<a class="nav-link" href="homeowner.html">Home</a>
+			<a class="nav-link" href="homeowner-announcements.html">Announcements</a>
+			<a class="nav-link" href="homeowner-reservation.html">Reservation Page</a>
+			<a class="nav-link" href="statement-of-account.html" aria-current="page">Pay Monthly Dues</a>
+		</div>
+	</nav>
+
+	<main class="statement-page">
+		<header class="statement-heading">
+			<h1>Monthly Dues</h1>
+			<p>View your HOA dues, accumulated balance and payment history</p>
+		</header>
+
+		<section class="balance-card" aria-label="Statement of Account total outstanding balance">
+			<div class="balance-copy">
+				<button class="soa-label" id="soaOpenButton" type="button" aria-haspopup="dialog" aria-controls="soaInspectionDialog">Statement Of Account (SOA)</button>
+				<p class="balance-caption">Total Outstanding Balance</p>
+				<strong class="balance-amount">₱11,500</strong>
+				<p class="balance-period">Covers period through March 2026 <span aria-hidden="true">·</span> Includes 171 months accumulated penalty</p>
+			</div>
+			<button class="breakdown-button" id="breakdownButton" type="button">
+				View Full Breakdown
+				<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg>
+			</button>
+		</section>
+
+		<section class="dues-section" aria-label="Dues and payment history">
+			<div class="dues-tabs" role="tablist" aria-label="Filter dues">
+				<button class="dues-tab" id="unpaidTab" type="button" role="tab" aria-selected="false" aria-controls="duesPanel" tabindex="-1" data-status="unpaid">Unpaid</button>
+				<button class="dues-tab" id="paidTab" type="button" role="tab" aria-selected="true" aria-controls="duesPanel" tabindex="0" data-status="paid">Paid</button>
+			</div>
+			<div class="dues-table-card" id="duesPanel" role="tabpanel" aria-labelledby="paidTab" tabindex="0">
+				<table class="dues-table">
+					<thead>
+						<tr>
+							<th scope="col">Date</th>
+							<th scope="col">Description</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody id="duesRows"></tbody>
+				</table>
+				<p class="dues-empty" id="duesEmpty" role="status" hidden></p>
+			</div>
+		</section>
+	</main>
+
+	<dialog class="profile-dialog" id="profileDialog" aria-labelledby="profileDialogTitle">
+		<div class="profile-dialog-header">
+			<h2 id="profileDialogTitle">Personal Information</h2>
+			<button class="profile-close" id="profileClose" type="button" aria-label="Close profile">×</button>
+		</div>
+		<div class="profile-summary">
+			<span class="profile-large-avatar" aria-hidden="true">
+				<svg viewBox="0 0 52 52" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="26" cy="17" r="9"/><path d="M9 43v-4c0-7 6-11 17-11s17 4 17 11v4"/></svg>
+			</span>
+			<strong class="profile-name-display">Joe Doe</strong>
+		</div>
+		<div class="profile-options">
+			<button class="profile-option" type="button">
+				<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="7" r="3.5"/><path d="M4.5 21v-2a7.5 7.5 0 0 1 15 0v2"/></svg>
+				<span>Personal Information</span>
+				<svg class="profile-option-arrow" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+			</button>
+			<button class="profile-option" type="button">
+				<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1a1.8 1.8 0 0 1-2.5 2.5l-.1-.1a1.8 1.8 0 0 0-3 .9v.2a1.8 1.8 0 0 1-3.6 0v-.2a1.8 1.8 0 0 0-3-.9l-.1.1a1.8 1.8 0 0 1-2.5-2.5l.1-.1a1.8 1.8 0 0 0-.9-3h-.2a1.8 1.8 0 0 1 0-3.6h.2a1.8 1.8 0 0 0 .9-3l-.1-.1a1.8 1.8 0 0 1 2.5-2.5l.1.1a1.8 1.8 0 0 0 3-.9v-.2a1.8 1.8 0 0 1 3.6 0v.2a1.8 1.8 0 0 0 3 .9l.1-.1a1.8 1.8 0 0 1 2.5 2.5l-.1.1a1.8 1.8 0 0 0 .9 3h.2a1.8 1.8 0 0 1 0 3.6h-.2a1.8 1.8 0 0 0-.9 3Z"/></svg>
+				<span>Change Password</span>
+				<svg class="profile-option-arrow" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+			</button>
+		</div>
+	</dialog>
+
+	<dialog class="soa-inspection-dialog" id="soaInspectionDialog" aria-labelledby="soaInspectionTitle">
+		<header class="soa-inspection-header">
+			<div class="soa-inspection-brand">
+				<span class="soa-status-dot" aria-hidden="true"></span>
+				<span>Statement of Account Inspection</span>
+			</div>
+			<div class="soa-inspection-actions">
+				<button class="print-soa-button" id="printSoaButton" type="button">
+					<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M7 14h10v7H7zM17 11h.01"/></svg>
+					Print / PDF
+				</button>
+				<form method="dialog">
+					<button class="inspection-close-icon" type="submit" aria-label="Close Statement of Account">×</button>
+				</form>
+			</div>
+		</header>
+		<div class="soa-inspection-body">
+			<h1 id="soaInspectionTitle">SOA</h1>
+			<p class="soa-inspection-intro">View your Statement of Account (SOA), including your monthly dues, penalties, outstanding balance, and total amount payable.</p>
+			<article class="soa-document">
+				<h2>Statement Of Account</h2>
+				<section class="soa-period" aria-labelledby="soaPeriodOne">
+					<h3 id="soaPeriodOne">Period Covered: April 1998 to March 2001</h3>
+					<table>
+						<thead><tr><th scope="col">Monthly Dues</th><th scope="col">Rate</th><th scope="col">No. of Months</th><th scope="col">Total</th></tr></thead>
+						<tbody><tr><td>300.00</td><td>0.5</td><td>36</td><td>5,400.00</td></tr></tbody>
+					</table>
+				</section>
+				<section class="soa-period" aria-labelledby="soaPeriodTwo">
+					<h3 id="soaPeriodTwo">Period Covered: April 2001 to December 2011</h3>
+					<table>
+						<thead><tr><th scope="col">Monthly Dues</th><th scope="col">Rate</th><th scope="col">No. of Months</th><th scope="col">Total</th></tr></thead>
+						<tbody><tr><td>300.00</td><td>1</td><td>129</td><td>38,700.00</td></tr></tbody>
+					</table>
+				</section>
+				<section class="soa-period" aria-labelledby="soaPeriodThree">
+					<h3 id="soaPeriodThree">Period Covered: January 2012 to December 2025</h3>
+					<table>
+						<thead><tr><th scope="col">Monthly Dues</th><th scope="col">Rate</th><th scope="col">No. of Months</th><th scope="col">Total</th></tr></thead>
+						<tbody><tr><td>300.00</td><td>1</td><td>129</td><td>38,700.00</td></tr></tbody>
+					</table>
+				</section>
+			</article>
+		</div>
+		<footer class="soa-inspection-footer">
+			<p>Need assistance? Contact the Administration Office.</p>
+			<form method="dialog"><button class="inspection-close-button" type="submit">Close</button></form>
+		</footer>
+	</dialog>
+
+	<dialog class="soa-dialog" id="soaDialog" aria-labelledby="soaDialogTitle">
+		<div class="soa-dialog-heading">
+			<h2 id="soaDialogTitle"></h2>
+			<form method="dialog"><button class="dialog-close" type="submit" aria-label="Close dialog">×</button></form>
+		</div>
+		<div class="soa-dialog-content" id="soaDialogContent"></div>
+	</dialog>
+
+	<dialog class="payment-dialog" id="paymentDialog" aria-labelledby="paymentDialogTitle">
+		<form class="payment-dialog-close" method="dialog">
+			<button class="payment-close-button" type="submit" aria-label="Close payment options">×</button>
+		</form>
+		<div class="payment-wallet-icon" aria-hidden="true">
+			<svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V7a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v3"/><path d="M7 9h18a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3"/><path d="M21 16h6"/><circle cx="21" cy="16" r="1" fill="currentColor" stroke="none"/></svg>
+		</div>
+		<h2 id="paymentDialogTitle">Complete Payment</h2>
+		<p class="payment-dialog-intro">Choose your preferred payment method to continue</p>
+		<div class="payment-total">
+			<span>Total Amount</span>
+			<strong>₱3,500.00</strong>
+		</div>
+		<h3 class="payment-method-heading">Select a payment method</h3>
+		<div class="payment-options" role="group" aria-label="Payment methods">
+			<button class="payment-option" type="button" data-method="gcash" aria-pressed="false">
+				<span class="payment-option-icon gcash-icon" aria-hidden="true">G</span>
+				<span class="payment-option-copy"><strong>GCash</strong><small>Pay using GCash QR Scan</small></span>
+				<svg class="payment-chevron" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+			</button>
+			<button class="payment-option" type="button" data-method="bank-transfer" aria-pressed="false">
+				<span class="payment-option-icon bank-icon" aria-hidden="true">
+					<svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M16 4 3 11v3h26v-3L16 4ZM6 16v10H4v3h24v-3h-2V16h-4v10h-4V16h-4v10h-4V16H6Z"/></svg>
+				</span>
+				<span class="payment-option-copy"><strong>Bank Transfer</strong><small>Pay via online banking</small></span>
+				<svg class="payment-chevron" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+			</button>
+		</div>
+		<div class="payment-security">
+			<svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true"><path d="M12 2 3.5 5.2v6.2c0 5.2 3.5 8.6 8.5 10.6 5-2 8.5-5.4 8.5-10.6V5.2L12 2Z" fill="#148a69"/><rect x="9" y="10" width="6" height="5.5" rx="1" fill="#fff"/><path d="M10.5 10V8.8a1.5 1.5 0 0 1 3 0V10" stroke="#fff" stroke-width="1.3"/></svg>
+			<span><strong>Your payment is secure</strong><small>Powered by trusted payment partners</small></span>
+		</div>
+	</dialog>
+
+	<dialog class="logout-dialog" id="logoutDialog" aria-labelledby="logoutDialogTitle">
+		<h2 id="logoutDialogTitle">Log out?</h2>
+		<p>Are you sure you want to log out?</p>
+		<div class="logout-dialog-actions">
+			<form method="dialog"><button class="logout-cancel" type="submit">Cancel</button></form>
+			<button class="logout-confirm" id="confirmLogout" type="button">Log out</button>
+		</div>
+	</dialog>
+
+	<script src="../../js/js/statement-of-account.js" defer></script>
+	<script src="../../js/js/homeowner-profile.js" defer></script>
+	<script src="../../js/js/homeowner-personal-info.js" defer></script>
+</body>
+</html>

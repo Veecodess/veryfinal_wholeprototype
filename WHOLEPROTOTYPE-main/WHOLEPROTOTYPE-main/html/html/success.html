@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Reservation Successful | Casa Milan</title>
+	<link rel="stylesheet" href="../../css/css/style.css">
+</head>
+<body class="success-page-body">
+	<main class="success-page">
+		<section id="confirmation-card" class="confirmation-card" aria-labelledby="confirmation-title">
+			<div class="confirmation-icon" aria-hidden="true">&#10003;</div>
+			<h1 id="confirmation-title">Booking Submitted!</h1>
+			<p class="confirmation-status">Pending admin approval</p>
+			<p class="confirmation-message">Check your email inbox (or spam folder) and your SMS messages for updates.</p>
+
+			<div class="confirmation-reference">
+				<div>
+					<span class="confirmation-reference-label">Booking reference</span>
+					<strong id="booking-reference"></strong>
+				</div>
+				<button id="copy-reference" class="copy-reference-button" type="button" aria-label="Copy booking reference">Copy</button>
+			</div>
+
+			<dl class="confirmation-details">
+				<div><dt>Facility</dt><dd id="booking-facility"></dd></div>
+				<div id="booking-court-row" hidden><dt>Court</dt><dd id="booking-court"></dd></div>
+				<div><dt>Date</dt><dd id="booking-date"></dd></div>
+				<div><dt>Time</dt><dd id="booking-time"></dd></div>
+				<div><dt>Rate</dt><dd id="booking-rate"></dd></div>
+			</dl>
+
+			<div class="confirmation-total"><span>Total amount</span><strong id="booking-total"></strong></div>
+
+			<section class="confirmation-next" aria-labelledby="confirmation-next-title">
+				<h2 id="confirmation-next-title">What happens next</h2>
+				<ol class="confirmation-steps">
+					<li class="is-complete">
+						<span class="confirmation-step-number" aria-hidden="true">&#10003;</span>
+						<strong>Submitted</strong>
+						<span>Request received</span>
+					</li>
+					<li aria-current="step">
+						<span class="confirmation-step-number">2</span>
+						<strong>Admin review</strong>
+						<span>Awaiting approval</span>
+					</li>
+					<li>
+						<span class="confirmation-step-number">3</span>
+						<strong>Confirmation</strong>
+						<span>By email and SMS</span>
+					</li>
+				</ol>
+			</section>
+			<p id="copy-feedback" class="copy-feedback" aria-live="polite"></p>
+			<div class="confirmation-actions">
+				<button id="save-receipt" class="save-receipt-button" type="button">Save e-Receipt</button>
+				<a class="confirmation-home-button" href="index.html#home">Back to Home</a>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		const query = new URLSearchParams(window.location.search);
+		const facility = query.get('Amenity') || 'Amenity Reservation';
+		const venueType = query.get('Venue Type') || '';
+		const dateValue = query.get('Reservation Date') || '';
+		const timeValue = query.get('Reservation Time') || '';
+		const total = query.get('Total Amount') || 'PHP 0';
+		const rateByAmenity = {
+			'Swimming Pool': 'PHP 250',
+			'Volleyball Court': 'PHP 1,000',
+			'Badminton Court': {
+				Taraflex: 'PHP 300',
+				Concrete: 'PHP 150',
+				'Semi-taraflex': 'PHP 250',
+				'Table tennis': 'PHP 200'
+			},
+			'Basketball Court': 'PHP 1,800',
+			'Pickleball Court': 'PHP 250 / player (5:00 PM - 9:00 PM only)',
+			'Main Hall': 'PHP 30,000'
+		};
+
+		const formatDate = (value) => value ? new Date(`${value}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Not selected';
+		const formatTimeRange = (value) => {
+			if (!value) return 'Not selected';
+			if (facility === 'Pickleball Court') return '5:00 PM - 9:00 PM';
+			const start = new Date(`2000-01-01T${value}`);
+			const formatTime = (time) => time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+			return formatTime(start);
+		};
+		const rate = typeof rateByAmenity[facility] === 'object' ? rateByAmenity[facility][venueType] || 'PHP 150' : rateByAmenity[facility] || 'To be confirmed';
+		const referenceDate = dateValue.replaceAll('-', '').slice(2) || '000000';
+		const reference = `CM - ${referenceDate} - ${String(Math.floor(Math.random() * 90000) + 10000)}`;
+
+		document.getElementById('booking-reference').textContent = reference;
+		document.getElementById('booking-facility').textContent = facility;
+		document.getElementById('booking-date').textContent = formatDate(dateValue);
+		document.getElementById('booking-time').textContent = formatTimeRange(timeValue);
+		document.getElementById('booking-rate').textContent = rate;
+		document.getElementById('booking-total').textContent = total;
+
+		if (venueType) {
+			document.getElementById('booking-court').textContent = `1 - ${venueType}`;
+			document.getElementById('booking-court-row').hidden = false;
+		}
+
+		const copyButton = document.getElementById('copy-reference');
+		const copyFeedback = document.getElementById('copy-feedback');
+		copyButton.addEventListener('click', () => {
+			if (!navigator.clipboard || !navigator.clipboard.writeText) {
+				copyFeedback.textContent = 'Copying is unavailable in this browser. Please copy it manually.';
+				return;
+			}
+			navigator.clipboard.writeText(reference).then(() => {
+				copyFeedback.textContent = 'Booking reference copied.';
+			}).catch(() => {
+				copyFeedback.textContent = 'Unable to copy the booking reference. Please copy it manually.';
+			});
+		});
+
+		document.getElementById('save-receipt').addEventListener('click', () => {
+			const canvas = document.createElement('canvas');
+			const context = canvas.getContext('2d');
+			if (!context) {
+				copyFeedback.textContent = 'Unable to create the e-receipt in this browser.';
+				return;
+			}
+
+			const width = 1000;
+			canvas.width = width;
+			const rows = [
+				{ label: 'Facility', value: facility },
+				...(venueType ? [{ label: 'Court', value: `1 - ${venueType}` }] : []),
+				{ label: 'Date', value: formatDate(dateValue) },
+				{ label: 'Time', value: formatTimeRange(timeValue) },
+				{ label: 'Rate', value: rate }
+			];
+			const wrapText = (text, maxWidth) => {
+				context.font = 'bold 25px Arial';
+				const lines = [];
+				let line = '';
+				text.split(' ').forEach((word) => {
+					const candidate = line ? `${line} ${word}` : word;
+					if (line && context.measureText(candidate).width > maxWidth) {
+						lines.push(line);
+						line = word;
+					} else {
+						line = candidate;
+					}
+				});
+				if (line) lines.push(line);
+				return lines;
+			};
+
+			const rowHeights = rows.map((row) => Math.max(70, wrapText(row.value, 500).length * 32 + 28));
+			const rowsTop = 500;
+			const totalTop = rowsTop + rowHeights.reduce((sum, height) => sum + height, 0) + 24;
+			canvas.height = totalTop + 210;
+
+			context.fillStyle = '#f7f4ed';
+			context.fillRect(0, 0, canvas.width, canvas.height);
+			context.fillStyle = '#ffffff';
+			context.fillRect(20, 20, width - 40, canvas.height - 40);
+
+			context.fillStyle = '#e8f1ec';
+			context.beginPath();
+			context.arc(width / 2, 100, 34, 0, Math.PI * 2);
+			context.fill();
+			context.fillStyle = '#005033';
+			context.beginPath();
+			context.arc(width / 2, 100, 26, 0, Math.PI * 2);
+			context.fill();
+			context.strokeStyle = '#ffffff';
+			context.lineWidth = 5;
+			context.beginPath();
+			context.moveTo(width / 2 - 11, 100);
+			context.lineTo(width / 2 - 3, 108);
+			context.lineTo(width / 2 + 13, 91);
+			context.stroke();
+
+			context.textAlign = 'center';
+			context.fillStyle = '#45290f';
+			context.font = 'bold 34px Georgia';
+			context.fillText('Booking Submitted!', width / 2, 180);
+			context.fillStyle = '#fff3d4';
+			context.fillRect(width / 2 - 170, 200, 340, 34);
+			context.fillStyle = '#956000';
+			context.font = 'bold 15px Arial';
+			context.fillText('PENDING ADMIN APPROVAL', width / 2, 223);
+
+			context.fillStyle = '#004b32';
+			context.fillRect(70, 270, width - 140, 130);
+			context.textAlign = 'left';
+			context.fillStyle = '#ffce42';
+			context.font = 'bold 15px Arial';
+			context.fillText('BOOKING REFERENCE', 105, 310);
+			context.fillStyle = '#ffffff';
+			context.font = 'bold 28px Arial';
+			context.fillText(reference, 105, 355);
+
+			let rowTop = rowsTop;
+			rows.forEach((row, index) => {
+				const rowHeight = rowHeights[index];
+				const valueLines = wrapText(row.value, 500);
+				context.textAlign = 'left';
+				context.fillStyle = '#756d66';
+				context.font = '22px Arial';
+				context.fillText(row.label, 70, rowTop + 38);
+				context.textAlign = 'right';
+				context.fillStyle = '#302319';
+				context.font = 'bold 25px Arial';
+				valueLines.forEach((line, lineIndex) => {
+					context.fillText(line, width - 70, rowTop + 32 + lineIndex * 30);
+				});
+				context.strokeStyle = '#eeeae4';
+				context.lineWidth = 1;
+				context.beginPath();
+				context.moveTo(70, rowTop + rowHeight);
+				context.lineTo(width - 70, rowTop + rowHeight);
+				context.stroke();
+				rowTop += rowHeight;
+			});
+
+			context.fillStyle = '#f7f3e9';
+			context.fillRect(70, totalTop, width - 140, 90);
+			context.textAlign = 'left';
+			context.fillStyle = '#302319';
+			context.font = 'bold 20px Arial';
+			context.fillText('TOTAL AMOUNT', 100, totalTop + 53);
+			context.textAlign = 'right';
+			context.fillStyle = '#004b32';
+			context.font = 'bold 30px Georgia';
+			context.fillText(total, width - 100, totalTop + 57);
+			context.textAlign = 'center';
+			context.fillStyle = '#756d66';
+			context.font = '16px Arial';
+			context.fillText('Booking confirmation only — not an official receipt.', width / 2, totalTop + 140);
+
+			canvas.toBlob((blob) => {
+				if (!blob) {
+					copyFeedback.textContent = 'Unable to save the e-receipt. Please try again.';
+					return;
+				}
+				const downloadUrl = URL.createObjectURL(blob);
+				const downloadLink = document.createElement('a');
+				downloadLink.href = downloadUrl;
+				downloadLink.download = `casa-milan-${reference.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`;
+				downloadLink.click();
+				window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+				copyFeedback.textContent = 'Your e-receipt has been saved.';
+			}, 'image/png');
+		});
+	</script>
+</body>
+</html>

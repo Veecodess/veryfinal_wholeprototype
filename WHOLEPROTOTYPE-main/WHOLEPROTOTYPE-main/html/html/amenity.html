@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Casa Milan Amenities</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/css/style.css">
+</head>
+<body class="amenity-page-body">
+    <nav>
+        <a href="index.html#home" class="logo" aria-label="Casa Milan home">
+            <img src="images/logo.png" alt="Casa Milan Homeowner's Association">
+            <span>Casa Milan<small>Homeowners Association</small></span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#events">Announcements</a>
+            <a href="index.html#amenities">Amenities</a>
+            <a href="index.html#contact">Contact</a>
+            <a href="index.html#login">Log In</a>
+        </div>
+    </nav>
+
+    <main class="amenity-page">
+        <header class="amenity-hero">
+            <p class="amenity-breadcrumb"><a href="index.html#amenities">Amenities</a> / <span id="amenity-breadcrumb-title"></span></p>
+            <h1 id="amenity-title"></h1>
+            <p id="amenity-description"></p>
+        </header>
+        <div class="amenity-detail-page">
+            <div class="amenity-detail">
+                <section class="amenity-content">
+                    <div class="amenity-about">
+                        <h2>About <span id="amenity-about-title"></span></h2>
+                        <ul id="amenity-highlights"></ul>
+                    </div>
+                    <section class="amenity-gallery">
+                        <h2>Gallery</h2>
+                        <img id="amenity-image" class="amenity-detail-image" src="" alt="">
+                    </section>
+                </section>
+                <aside class="amenity-booking">
+                    <h2 id="amenity-booking-title"></h2>
+                    <div id="amenity-rates" class="amenity-detail-rates"></div>
+                    <div class="amenity-actions">
+                        <a id="amenity-action" class="back-link" href="index.html#amenities">Book Now</a>
+                        <a id="amenity-back" class="back-link amenity-back" href="index.html#amenities" hidden>Back</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const amenities = {
+            pool: {
+                title: 'Swimming Pool',
+                image: 'images/swimming_pool.jpg',
+                description: 'Take a refreshing break in Casa Milan\'s swimming pool, a relaxing space for residents and guests to enjoy.',
+                rates: ['Pool access: PHP 250', 'With chairs and tables: PHP 500'],
+                highlights: ['A refreshing space for leisure', 'Surrounded by a calm community setting', 'Suitable for relaxed family time']
+            },
+            volleyball: {
+                title: 'Volleyball Court',
+                image: 'images/volleyball_court.jpg',
+                description: 'Bring your neighbors together for a friendly match on the open volleyball court.',
+                rates: ['PHP 1,000'],
+                highlights: ['Open-air court for active play', 'Great for friendly community matches', 'A space for teamwork and bonding']
+            },
+            badminton: {
+                title: 'Badminton Court',
+                image: 'images/badminton_court.jpg',
+                description: 'Enjoy an easygoing game or a more energetic match on Casa Milan\'s badminton court.',
+                rates: ['Taraflex flooring: PHP 300', 'Concrete flooring: PHP 150', 'Semi-taraflex flooring: PHP 250', 'Table tennis: PHP 200'],
+                highlights: ['Designed for casual or active play', 'A convenient way to stay active', 'Ideal for games with family and neighbors']
+            },
+            basketball: {
+                title: 'Basketball Court',
+                image: 'images/basketball_court.jpg',
+                description: 'The basketball court gives residents a lively place to play, practice, and spend time together.',
+                rates: ['PHP 1,800'],
+                highlights: ['Open space for basketball matches', 'Suitable for practice and recreation', 'Encourages an active community']
+            },
+            pickleball: {
+                title: 'Pickleball Court',
+                image: 'images/pickleball.jpg',
+                description: 'Enjoy a fun, social game of pickleball with friends and neighbors in a friendly community setting.',
+                rates: ['PHP 250 / player', 'Booking window: 5:00 PM to 9:00 PM only'],
+                highlights: ['Fast-paced, beginner-friendly sport', 'Suitable for casual games and friendly matches', 'A fun way to stay active with the community']
+            },
+            hall: {
+                title: 'Main Hall',
+                image: 'images/functionhall.jpg',
+                description: 'Casa Milan\'s main hall is a flexible venue for gatherings, celebrations, and community events.',
+                rates: ['PHP 30,000'],
+                highlights: ['Spacious event area', 'Flexible setup for gatherings', 'Suitable for celebrations and HOA activities']
+            }
+        };
+
+        const requestedAmenity = new URLSearchParams(window.location.search).get('name');
+        const amenity = amenities[requestedAmenity] || amenities.pool;
+
+        document.title = `${amenity.title} | Casa Milan`;
+        document.getElementById('amenity-title').textContent = amenity.title;
+        document.getElementById('amenity-breadcrumb-title').textContent = amenity.title;
+        document.getElementById('amenity-about-title').textContent = amenity.title;
+        document.getElementById('amenity-booking-title').textContent = `Book the ${amenity.title}`;
+        document.getElementById('amenity-description').textContent = amenity.description;
+        document.getElementById('amenity-image').src = amenity.image;
+        document.getElementById('amenity-image').alt = amenity.title;
+        const amenityAction = document.getElementById('amenity-action');
+        const amenityBack = document.getElementById('amenity-back');
+        const isMainHall = requestedAmenity === 'hall';
+        amenityAction.textContent = isMainHall ? 'View Details' : 'Book Now';
+        amenityAction.href = isMainHall ? 'mainhall.html' : `reservation.html?amenity=${requestedAmenity}`;
+        amenityBack.hidden = !isMainHall;
+
+        const rates = document.getElementById('amenity-rates');
+        const ratesHeading = document.createElement('strong');
+        ratesHeading.textContent = 'Rates';
+        rates.appendChild(ratesHeading);
+        amenity.rates.forEach((rate) => {
+            const item = document.createElement('p');
+            item.textContent = rate;
+            rates.appendChild(item);
+        });
+
+        const highlights = document.getElementById('amenity-highlights');
+        amenity.highlights.forEach((highlight) => {
+            const item = document.createElement('li');
+            item.textContent = highlight;
+            highlights.appendChild(item);
+        });
+    </script>
+</body>
+</html>

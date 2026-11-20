@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Schedule | Casa Milan</title>
+	<link rel="stylesheet" href="../../css/css/style.css">
+</head>
+<body class="schedule-page-body">
+	<nav>
+		<a href="index.html#home" class="logo" aria-label="Casa Milan home">
+			<img src="images/logo.png" alt="Casa Milan Homeowner's Association">
+			<span>Casa Milan<small>Homeowners Association</small></span>
+		</a>
+		<div class="nav-links">
+			<a href="index.html#home">Home</a>
+			<a href="index.html#about">About</a>
+			<a href="index.html#events">Announcements</a>
+			<a href="index.html#amenities">Amenities</a>
+			<a href="contacts.html">Contact</a>
+			<a href="index.html#login">Log In</a>
+		</div>
+	</nav>
+
+	<main class="schedule-page">
+		<aside class="schedule-summary" aria-labelledby="schedule-summary-title">
+			<div>
+				<p class="schedule-summary-eyebrow">Your reservation</p>
+				<h1 id="schedule-summary-title"></h1>
+				<p class="schedule-summary-type">Guest booking</p>
+			</div>
+			<dl class="schedule-summary-details">
+				<div><dt>Guest</dt><dd id="schedule-summary-guest"></dd></div>
+				<div><dt>Date</dt><dd id="schedule-summary-date">Not selected</dd></div>
+				<div><dt>Time</dt><dd id="schedule-summary-time">Not selected</dd></div>
+			</dl>
+			<div class="schedule-summary-rate">
+				<span>Rate</span>
+				<strong id="schedule-summary-rate"></strong>
+			</div>
+		</aside>
+
+		<section class="schedule-panel" aria-labelledby="schedule-title">
+			<ol class="reservation-steps schedule-steps" aria-label="Guest reservation progress">
+				<li class="is-complete"><span>✓</span><span>Your details</span></li>
+				<li aria-current="step"><span>2</span><span>Date and time</span></li>
+				<li><span>3</span><span>Confirm</span></li>
+			</ol>
+			<header class="schedule-heading">
+				<h2 id="schedule-title">Pick a date and time</h2>
+				<p>Choose a day, then an open time slot.</p>
+			</header>
+
+			<div class="schedule-selection">
+				<section class="schedule-calendar" aria-labelledby="calendar-title">
+					<div class="schedule-month-controls">
+						<button id="previous-month" class="month-button" type="button" aria-label="Previous month">&#8249;</button>
+						<h3 id="calendar-title"></h3>
+						<button id="next-month" class="month-button" type="button" aria-label="Next month">&#8250;</button>
+					</div>
+					<div class="calendar-weekdays" aria-hidden="true">
+						<span>Sun</span>
+						<span>Mon</span>
+						<span>Tue</span>
+						<span>Wed</span>
+						<span>Thu</span>
+						<span>Fri</span>
+						<span>Sat</span>
+					</div>
+					<div id="calendar-grid" class="calendar-grid" role="grid" aria-label="Reservation dates"></div>
+				</section>
+
+				<form id="schedule-form" class="schedule-form" action="guestpayment.html" method="get">
+					<input id="amenity-name" name="Amenity" type="hidden">
+					<input id="venue-type" name="Venue Type" type="hidden">
+					<input id="last-name" name="Last Name" type="hidden">
+					<input id="first-name" name="First Name" type="hidden">
+					<input id="middle-name" name="Middle Name" type="hidden">
+					<input id="contact-number" name="Contact Number" type="hidden">
+					<input id="email" name="Email Address" type="hidden">
+					<input id="reservation-date" name="Reservation Date" type="hidden" required>
+					<input id="reservation-time" name="Reservation Time" type="hidden" required>
+
+					<div class="schedule-time-picker">
+						<p id="selected-date-label" class="selected-date-label">Select a date</p>
+						<div id="time-slots" class="time-slots" aria-label="Available reservation times"></div>
+					</div>
+				</form>
+			</div>
+
+			<div class="schedule-legend" aria-label="Schedule legend">
+				<span class="legend-available">Available</span>
+				<span class="legend-selected">Selected</span>
+				<span class="legend-maintenance">Amenity maintenance</span>
+				<span class="legend-booked">Fully booked</span>
+				<span class="legend-today">Today</span>
+			</div>
+
+			<div class="schedule-actions">
+				<a class="schedule-back-button" href="reservation.html">Back</a>
+				<button class="schedule-next-button" form="schedule-form" type="submit">Next</button>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		const query = new URLSearchParams(window.location.search);
+		const today = new Date();
+		const monthLabel = document.getElementById('calendar-title');
+		const calendarGrid = document.getElementById('calendar-grid');
+		const timeSlots = document.getElementById('time-slots');
+		const reservationDate = document.getElementById('reservation-date');
+		const reservationTime = document.getElementById('reservation-time');
+		const scheduleForm = document.getElementById('schedule-form');
+		const selectedDateLabel = document.getElementById('selected-date-label');
+		let displayedMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+		const times = [
+			{ label: '7:00 AM - 8:00 AM', value: '07:00' },
+			{ label: '9:00 AM - 10:00 AM', value: '09:00' },
+			{ label: '11:00 AM - 12:00 PM', value: '11:00' },
+			{ label: '1:00 PM - 2:00 PM', value: '13:00' },
+			{ label: '3:00 PM - 4:00 PM', value: '15:00' },
+			{ label: '5:00 PM - 6:00 PM', value: '17:00' },
+			{ label: '7:00 PM - 8:00 PM', value: '19:00' },
+			{ label: '9:00 PM - 10:00 PM', value: '21:00' }
+		];
+		const amenity = query.get('Amenity') || 'Guest Reservation';
+		const venueType = query.get('Venue Type') || '';
+		const availableTimesByAmenity = {
+			'Pickleball Court': ['17:00', '19:00']
+		};
+		const rateByAmenity = {
+			'Swimming Pool': 'PHP 250',
+			'Volleyball Court': 'PHP 1,000',
+			'Badminton Court': {
+				Taraflex: 'PHP 300',
+				Concrete: 'PHP 150',
+				'Semi-taraflex': 'PHP 250',
+				'Table tennis': 'PHP 200'
+			},
+			'Basketball Court': 'PHP 1,800',
+			'Pickleball Court': 'PHP 250 / player (5:00 PM - 9:00 PM only)'
+		};
+		const summaryRate = typeof rateByAmenity[amenity] === 'object'
+			? rateByAmenity[amenity][venueType]
+			: rateByAmenity[amenity];
+
+		document.getElementById('schedule-summary-title').textContent = amenity;
+		document.getElementById('schedule-summary-guest').textContent = [
+			query.get('First Name'),
+			query.get('Middle Name'),
+			query.get('Last Name')
+		].filter(Boolean).join(' ') || 'Guest name';
+		document.getElementById('schedule-summary-rate').textContent = summaryRate || 'Rate not specified';
+
+		const setReservationDetails = () => {
+			const fields = ['amenity-name', 'venue-type', 'last-name', 'first-name', 'middle-name', 'contact-number', 'email'];
+			const names = ['Amenity', 'Venue Type', 'Last Name', 'First Name', 'Middle Name', 'Contact Number', 'Email Address'];
+			fields.forEach((field, index) => {
+				document.getElementById(field).value = query.get(names[index]) || '';
+			});
+		};
+
+		const isSameDate = (firstDate, secondDate) => firstDate.toDateString() === secondDate.toDateString();
+		const formatLongDate = (date) => date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+		const updateSelectedDateSummary = (date) => {
+			document.getElementById('schedule-summary-date').textContent = formatLongDate(date);
+			selectedDateLabel.textContent = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+		};
+
+		const updateSelectedTimeSummary = () => {
+			const selectedTime = times.find((time) => time.value === reservationTime.value);
+			document.getElementById('schedule-summary-time').textContent = selectedTime ? selectedTime.label : 'Not selected';
+		};
+
+		const clearSelectedTime = () => {
+			reservationTime.value = '';
+			document.querySelectorAll('.time-slot-selected').forEach((slot) => {
+				slot.classList.remove('time-slot-selected');
+				slot.setAttribute('aria-pressed', 'false');
+				slot.setAttribute('aria-label', `${slot.dataset.timeLabel}, Available`);
+				slot.querySelector('.time-slot-status').textContent = 'Available';
+			});
+			updateSelectedTimeSummary();
+		};
+
+		const renderTimeSlots = () => {
+			timeSlots.replaceChildren();
+			const filteredTimes = availableTimesByAmenity[amenity]
+				? times.filter((time) => availableTimesByAmenity[amenity].includes(time.value))
+				: times;
+			filteredTimes.forEach((time) => {
+				const button = document.createElement('button');
+				button.type = 'button';
+				button.className = 'time-slot time-slot-available';
+				button.dataset.timeLabel = time.label;
+				button.setAttribute('aria-pressed', 'false');
+				button.setAttribute('aria-label', `${time.label}, Available`);
+				const label = document.createElement('span');
+				label.textContent = time.label;
+				const status = document.createElement('span');
+				status.className = 'time-slot-status';
+				status.textContent = 'Available';
+				button.append(label, status);
+				if (time.value === reservationTime.value) {
+					button.classList.add('time-slot-selected');
+					button.setAttribute('aria-pressed', 'true');
+					status.textContent = 'Selected';
+					button.setAttribute('aria-label', `${time.label}, Selected`);
+				}
+				button.addEventListener('click', () => {
+					clearSelectedTime();
+					button.classList.add('time-slot-selected');
+					button.setAttribute('aria-pressed', 'true');
+					status.textContent = 'Selected';
+					button.setAttribute('aria-label', `${time.label}, Selected`);
+					reservationTime.value = time.value;
+					updateSelectedTimeSummary();
+				});
+				timeSlots.appendChild(button);
+			});
+		};
+
+		const renderCalendar = () => {
+			const year = displayedMonth.getFullYear();
+			const month = displayedMonth.getMonth();
+			const firstDay = new Date(year, month, 1).getDay();
+			const daysInMonth = new Date(year, month + 1, 0).getDate();
+			monthLabel.textContent = displayedMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+			calendarGrid.replaceChildren();
+
+			for (let index = 0; index < firstDay; index += 1) {
+				calendarGrid.appendChild(document.createElement('span'));
+			}
+
+			for (let day = 1; day <= daysInMonth; day += 1) {
+				const date = new Date(year, month, day);
+				const button = document.createElement('button');
+				button.type = 'button';
+				button.className = 'calendar-day';
+				button.textContent = day;
+				button.setAttribute('aria-label', date.toLocaleDateString('en-US', { dateStyle: 'long' }));
+
+				if (date < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+					button.disabled = true;
+					button.classList.add('calendar-day-past');
+				} else if (isSameDate(date, today)) {
+					button.classList.add('calendar-day-today');
+				}
+
+				if (reservationDate.value === `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`) {
+					button.classList.add('calendar-day-selected');
+				}
+
+				button.addEventListener('click', () => {
+					const selectedValue = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+					if (reservationDate.value !== selectedValue) clearSelectedTime();
+					document.querySelectorAll('.calendar-day-selected').forEach((selectedDay) => selectedDay.classList.remove('calendar-day-selected'));
+					button.classList.add('calendar-day-selected');
+					reservationDate.value = selectedValue;
+					updateSelectedDateSummary(date);
+				});
+				calendarGrid.appendChild(button);
+			}
+		};
+
+		document.getElementById('previous-month').addEventListener('click', () => {
+			const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+			if (displayedMonth > currentMonth) {
+				displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
+				renderCalendar();
+			}
+		});
+		document.getElementById('next-month').addEventListener('click', () => {
+			displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
+			renderCalendar();
+		});
+		scheduleForm.addEventListener('submit', (event) => {
+			if (!reservationDate.value || !reservationTime.value) {
+				event.preventDefault();
+				window.alert('Please select a date and an available time before continuing.');
+			}
+		});
+
+		setReservationDetails();
+		renderCalendar();
+		renderTimeSlots();
+		updateSelectedTimeSummary();
+		if (reservationDate.value) updateSelectedDateSummary(new Date(`${reservationDate.value}T00:00:00`));
+
+		document.querySelector('nav').addEventListener('click', (event) => {
+			const link = event.target.closest('a');
+			if (!link) return;
+			if (!window.confirm('Leave reservation? Your progress will be lost, and your reservation will not be completed.')) {
+				event.preventDefault();
+			}
+		});
+	</script>
+</body>
+</html>

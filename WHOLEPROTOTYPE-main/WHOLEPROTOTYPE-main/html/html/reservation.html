@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Reservation | Casa Milan</title>
+    <link rel="stylesheet" href="../../css/css/style.css">
+</head>
+<body class="reservation-page-body">
+    <nav>
+        <a href="index.html#home" class="logo" aria-label="Casa Milan home">
+            <img src="images/logo.png" alt="Casa Milan Homeowner's Association">
+            <span>Casa Milan<small>Homeowners Association</small></span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#events">Announcements</a>
+            <a href="index.html#amenities">Amenities</a>
+            <a href="contacts.html">Contact</a>
+            <a href="index.html#login">Log In</a>
+        </div>
+    </nav>
+
+    <main class="reservation-page">
+        <aside class="reservation-summary" aria-labelledby="reservation-summary-title">
+            <p class="reservation-eyebrow">Casa Milan Guest Reservation</p>
+            <h2 id="reservation-summary-title">You are booking</h2>
+            <img id="summary-amenity-image" class="reservation-summary-image" src="" alt="" hidden>
+            <p id="summary-amenity-placeholder" class="reservation-summary-placeholder">Choose an amenity to see its details.</p>
+            <h3 id="summary-amenity-title">Select an amenity</h3>
+            <p id="summary-amenity-description" class="reservation-summary-description"></p>
+            <div class="reservation-summary-meta">
+                <div id="summary-rate-row" class="reservation-summary-row" hidden>
+                    <span>Rate</span>
+                    <ul id="summary-rates"></ul>
+                </div>
+                <div class="reservation-summary-row">
+                    <span>Booking type</span>
+                    <strong>Guest</strong>
+                </div>
+            </div>
+        </aside>
+
+        <section class="reservation-panel" aria-labelledby="reservation-title">
+            <ol class="reservation-steps" aria-label="Guest reservation progress">
+                <li aria-current="step"><span>1</span><span>Your details</span></li>
+                <li><span>2</span><span>Date and time</span></li>
+                <li><span>3</span><span>Confirm</span></li>
+            </ol>
+            <div class="reservation-heading">
+                <h1 id="reservation-title">Book as a Guest</h1>
+                <p>Enter your information and our team will contact you about your reservation.</p>
+            </div>
+
+            <form class="reservation-form" action="guestschedule.html" method="get">
+                <input id="amenity-name" name="Amenity" type="hidden">
+                <div id="amenity-select-field" class="reservation-field reservation-field-email" hidden>
+                    <label for="amenity-select">Amenity</label>
+                    <select id="amenity-select" name="Amenity" required>
+                        <option value="">Select an amenity</option>
+                        <option value="Swimming Pool">Swimming Pool</option>
+                        <option value="Volleyball Court">Volleyball Court</option>
+                        <option value="Badminton Court">Badminton Court</option>
+                        <option value="Basketball Court">Basketball Court</option>
+                        <option value="Pickleball Court">Pickleball Court</option>
+                    </select>
+                </div>
+                <div id="venue-type-field" class="reservation-field reservation-field-email" hidden>
+                    <label for="venue-type">Venue Type</label>
+                    <select id="venue-type" name="Venue Type" required>
+                        <option value="">Select a venue type</option>
+                        <option value="Taraflex">Taraflex</option>
+                        <option value="Concrete">Concrete</option>
+                        <option value="Semi-taraflex">Semi-taraflex</option>
+                        <option value="Table tennis">Table tennis</option>
+                    </select>
+                </div>
+                <fieldset class="reservation-form-section">
+                    <legend>Full name</legend>
+                    <div class="reservation-name-fields">
+                        <div class="reservation-field">
+                            <label for="last-name">Last name</label>
+                            <input id="last-name" name="Last Name" type="text" required>
+                        </div>
+                        <div class="reservation-field">
+                            <label for="first-name">First name</label>
+                            <input id="first-name" name="First Name" type="text" required>
+                        </div>
+                        <div class="reservation-field">
+                            <label for="middle-name">Middle name (optional)</label>
+                            <input id="middle-name" name="Middle Name" type="text">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="reservation-form-section">
+                    <legend>How we reach you</legend>
+                    <div class="reservation-contact-fields">
+                        <div class="reservation-field">
+                            <label for="contact-number">Contact number</label>
+                            <input id="contact-number" name="Contact Number" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="15" autocomplete="tel" required>
+                        </div>
+                        <div class="reservation-field">
+                            <label for="email">Email address</label>
+                            <input id="email" name="Email Address" type="email" required>
+                        </div>
+                    </div>
+                </fieldset>
+                <p class="reservation-form-note">We only use these details to confirm your reservation.</p>
+                <div class="reservation-form-actions">
+                    <a class="reservation-back" href="index.html#home">Back</a>
+                    <button class="reservation-submit" type="submit">Next</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const amenityNames = {
+            pool: 'Swimming Pool',
+            volleyball: 'Volleyball Court',
+            badminton: 'Badminton Court',
+            basketball: 'Basketball Court',
+            pickleball: 'Pickleball Court'
+        };
+        const amenityDetails = {
+            'Swimming Pool': {
+                image: 'images/swimming_pool.jpg',
+                description: 'Take a refreshing break in Casa Milan\'s swimming pool, a relaxing space for residents and guests to enjoy.',
+                rates: ['Pool access: PHP 250', 'With chairs and tables: PHP 500']
+            },
+            'Volleyball Court': {
+                image: 'images/volleyball_court.jpg',
+                description: 'Bring your neighbors together for a friendly match on the open volleyball court.',
+                rates: ['PHP 1,000']
+            },
+            'Badminton Court': {
+                image: 'images/badminton_court.jpg',
+                description: 'Enjoy an easygoing game or a more energetic match on Casa Milan\'s badminton court.',
+                rates: ['Taraflex flooring: PHP 300', 'Concrete flooring: PHP 150', 'Semi-taraflex flooring: PHP 250', 'Table tennis: PHP 200']
+            },
+            'Basketball Court': {
+                image: 'images/basketball_court.jpg',
+                description: 'The basketball court gives residents a lively place to play, practice, and spend time together.',
+                rates: ['PHP 1,800']
+            },
+            'Pickleball Court': {
+                image: 'images/pickleball.jpg',
+                description: 'Enjoy a fun, social game of pickleball with friends and neighbors in a friendly community setting.',
+                rates: ['PHP 250 / player', 'Booking window: 5:00 PM to 9:00 PM only']
+            }
+        };
+        const requestedAmenity = new URLSearchParams(window.location.search).get('amenity');
+        const amenityName = amenityNames[requestedAmenity];
+        const venueTypeField = document.getElementById('venue-type-field');
+        const venueTypeSelect = document.getElementById('venue-type');
+        const amenityNameInput = document.getElementById('amenity-name');
+        const amenitySelectField = document.getElementById('amenity-select-field');
+        const amenitySelect = document.getElementById('amenity-select');
+        const summaryImage = document.getElementById('summary-amenity-image');
+        const summaryPlaceholder = document.getElementById('summary-amenity-placeholder');
+        const summaryTitle = document.getElementById('summary-amenity-title');
+        const summaryDescription = document.getElementById('summary-amenity-description');
+        const summaryRateRow = document.getElementById('summary-rate-row');
+        const summaryRates = document.getElementById('summary-rates');
+
+        const updateReservationSummary = (selectedAmenity) => {
+            const details = amenityDetails[selectedAmenity];
+            summaryTitle.textContent = selectedAmenity || 'Select an amenity';
+            summaryDescription.textContent = details ? details.description : '';
+            summaryImage.hidden = !details;
+            summaryPlaceholder.hidden = Boolean(details);
+            summaryRates.replaceChildren();
+            summaryRateRow.hidden = !details;
+            if (details) {
+                summaryImage.src = details.image;
+                summaryImage.alt = selectedAmenity;
+                details.rates.forEach((rate) => {
+                    const item = document.createElement('li');
+                    item.textContent = rate;
+                    summaryRates.appendChild(item);
+                });
+            }
+        };
+
+        const updateVenueType = (selectedAmenity) => {
+            const isBadminton = selectedAmenity === 'Badminton Court';
+            venueTypeField.hidden = !isBadminton;
+            venueTypeSelect.disabled = !isBadminton;
+            if (!isBadminton) venueTypeSelect.value = '';
+        };
+
+        if (amenityName) {
+            amenityNameInput.value = amenityName;
+            amenitySelect.value = amenityName;
+            amenitySelect.disabled = true;
+            updateVenueType(amenityName);
+            updateReservationSummary(amenityName);
+        } else {
+            amenitySelectField.hidden = false;
+            amenityNameInput.disabled = true;
+            amenitySelect.addEventListener('change', () => {
+                amenityNameInput.value = amenitySelect.value;
+                updateVenueType(amenitySelect.value);
+                updateReservationSummary(amenitySelect.value);
+            });
+            updateReservationSummary('');
+        }
+
+        document.querySelector('nav').addEventListener('click', (event) => {
+            const link = event.target.closest('a');
+            if (!link) return;
+            if (!window.confirm('Leave reservation? Your progress will be lost, and your reservation will not be completed.')) {
+                event.preventDefault();
+            }
+        });
+
+        const contactNumberInput = document.getElementById('contact-number');
+        contactNumberInput.addEventListener('input', () => {
+            contactNumberInput.value = contactNumberInput.value.replace(/\D/g, '').slice(0, 15);
+        });
+    </script>
+</body>
+</html>
